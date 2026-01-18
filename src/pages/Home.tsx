@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Logo } from "../components/Logo";
 
 export function Home() {
   const [linkInput, setLinkInput] = useState("");
@@ -29,9 +30,12 @@ export function Home() {
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
-            Categories
-          </h1>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Logo size={48} />
+            <h1 className="text-4xl font-bold text-neutral-900">
+              Categories
+            </h1>
+          </div>
           <p className="text-lg text-neutral-600">
             Create and share custom word puzzles with your friends
           </p>

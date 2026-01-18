@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Tile } from "../components/Tile";
 import { SolvedRow } from "../components/SolvedRow";
 import { ToastBanner } from "../components/ToastBanner";
+import { Logo } from "../components/Logo";
 import type { PlayState } from "../lib/types";
 import { decodePuzzle, getPayloadFromHash } from "../lib/encode";
 import {
@@ -132,9 +133,12 @@ function PlayGame({ initialState }: { initialState: PlayState }) {
           >
             &larr; Home
           </Link>
-          <h1 className="text-xl font-bold text-neutral-900">
-            {state.puzzle.title || "Categories"}
-          </h1>
+          <div className="flex items-center gap-2">
+            <Logo size={28} />
+            <h1 className="text-xl font-bold text-neutral-900">
+              {state.puzzle.title || "Categories"}
+            </h1>
+          </div>
           <div className="w-16" />
         </div>
 
