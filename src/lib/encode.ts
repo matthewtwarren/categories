@@ -24,11 +24,11 @@ export function decodePuzzle(payload: string): PuzzleV1 | null {
 
 export function createShareableLink(puzzle: PuzzleV1): string {
   const payload = encodePuzzle(puzzle);
-  return `${window.location.origin}/play#p=${payload}`;
+  const base = window.location.href.split('#')[0];
+  return `${base}#/play?p=${payload}`;
 }
 
-export function getPayloadFromHash(): string | null {
-  const hash = window.location.hash;
-  if (!hash.startsWith("#p=")) return null;
-  return hash.slice(3);
+export function getPayloadFromSearch(search: string): string | null {
+  const params = new URLSearchParams(search);
+  return params.get('p');
 }

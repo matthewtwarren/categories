@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Tile } from "../components/Tile";
 import { SolvedRow } from "../components/SolvedRow";
 import { ToastBanner } from "../components/ToastBanner";
 import { Logo } from "../components/Logo";
 import type { PlayState } from "../lib/types";
-import { decodePuzzle, getPayloadFromHash } from "../lib/encode";
+import { decodePuzzle, getPayloadFromSearch } from "../lib/encode";
 import {
   initializePlayState,
   toggleSelection,
@@ -23,8 +23,8 @@ type InitResult =
   | { ok: true; initialState: PlayState }
   | { ok: false; error: string };
 
-function initFromHash(): InitResult {
-  const payload = getPayloadFromHash();
+function initFromSearch(search: string): InitResult {
+  const payload = getPayloadFromSearch(search);
   if (!payload) {
     return { ok: false, error: "No puzzle data found in the URL." };
   }
@@ -296,15 +296,15 @@ function ErrorView({ error }: { error: string }) {
 }
 
 export function Play() {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const search = searchParams.toString();
 
-  // Use location.hash as key to reinitialize when hash changes
-  const initResult = initFromHash();
+  const initResult = initFromSearch(search);
 
   if (!initResult.ok) {
     return <ErrorView error={initResult.error} />;
   }
 
-  // Key forces remount when hash changes
-  return <PlayGame key={location.hash} initialState={initResult.initialState} />;
+  // Key forces remount when search params change
+  return <PlayGame key={search} initialState={initResult.initialState} />;
 }

@@ -10,20 +10,23 @@ export function Home() {
     const trimmed = linkInput.trim();
     if (!trimmed) return;
 
-    // Extract hash from pasted link or use directly as payload
-    let payload = trimmed;
+    let payload = "";
 
-    // If it's a full URL, extract the hash
-    if (trimmed.includes("#p=")) {
-      const hashIndex = trimmed.indexOf("#p=");
-      payload = trimmed.slice(hashIndex);
+    // Extract payload from various URL formats
+    if (trimmed.includes("?p=")) {
+      // Full URL with query param: ...#/play?p=payload
+      const match = trimmed.match(/[?&]p=([^&]+)/);
+      if (match) payload = match[1];
     } else if (trimmed.startsWith("p=")) {
-      payload = "#" + trimmed;
-    } else if (!trimmed.startsWith("#")) {
-      payload = "#p=" + trimmed;
+      payload = trimmed.slice(2);
+    } else {
+      // Assume it's just the raw payload
+      payload = trimmed;
     }
 
-    navigate(`/play${payload}`);
+    if (payload) {
+      navigate(`/play?p=${payload}`);
+    }
   };
 
   return (
